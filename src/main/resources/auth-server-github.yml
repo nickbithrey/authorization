@@ -1,0 +1,14 @@
+logging:
+  level:
+    org: 
+      springframework:
+        security: DEBUG
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: aa87fa3a7cc9daf33a4f
+            client-secret: aa5ad6d276b0adf2c56f3543b24f3b4c23e58760
