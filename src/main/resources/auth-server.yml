@@ -1,0 +1,9 @@
+logging:
+  level:
+    org: 
+      springframework:
+        security: DEBUG
+server:
+  port: 8888   # HTTP (Tomcat) port
+  servlet:
+    context-path: /authorization
