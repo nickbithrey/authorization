@@ -7,3 +7,19 @@ server:
   port: 8888   # HTTP (Tomcat) port
   servlet:
     context-path: /authorization
+spring: 
+  profiles:
+    active:
+    - oracle
+  application:
+     name: auth-service
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+  data:
+    rest:
+      base-path: api/v1
