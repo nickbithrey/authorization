@@ -1,5 +1,52 @@
+-- CREATE SEQUENCE
+DROP SEQUENCE HIBERNATE_SEQUENCE;
+CREATE SEQUENCE HIBERNATE_SEQUENCE START WITH 1 INCREMENT BY 1 NOCACHE;
+
 -- CREATE ROLES
-INSERT INTO ROLE (id, name) VALUES (1, 'USER');
+INSERT INTO ROLE (id, name) VALUES (HIBERNATE_SEQUENCE.nextVal, 'USER');
 
 -- CREATE USERS
-INSERT INTO USERINFO (id, username, password, enabled, failed_attempts, max_failed_attempts) VALUES (2, 'admin', '$2a$10$AZmT259FCn3sWHCe/Cv83urHsmJIKxeIHk4DC0N0ptEVOHSkpJd.W', 1, 0, 3);
+INSERT INTO USERDETAILS (id, username, password, enabled, failed_attempts, max_failed_attempts) VALUES (HIBERNATE_SEQUENCE.nextVal, 'admin', '$2a$10$AZmT259FCn3sWHCe/Cv83urHsmJIKxeIHk4DC0N0ptEVOHSkpJd.W', 1, 0, 3);
+
+-- LINK USER AND ROLES
+INSERT INTO USERDETAILS_ROLE
+(user_id, role_id) with NAMES as
+(
+SELECT USERDETAILS.id as user_id, role.id as role_id from USERDETAILS, ROLE
+)
+select * from NAMES;
+
+-- CREATE OAUTH CREDENTIALS
+INSERT INTO OCD
+(id, client_id, client_secret, access_token_validity, refresh_token_validity) VALUES
+(HIBERNATE_SEQUENCE.nextVal, 'admin', '$2a$10$qCmzpru7/dZ/QNRvh9VCJumwVf38pROjiHsOqfEYVIR718/nBdof.', 600, 600);
+
+-- OCD_AAS
+INSERT INTO OCD_AAS
+(ocd_id, scope) WITH NAMES AS 
+(
+SELECT id, 'READ' FROM OCD UNION ALL
+SELECT id, 'WRITE' FROM OCD
+)
+select * from NAMES;
+
+-- OCD_SCOPE
+INSERT INTO OCD_SCOPE
+(ocd_id, scope) WITH NAMES AS 
+(
+SELECT id, 'READ' FROM OCD UNION ALL
+SELECT id, 'WRITE' FROM OCD
+)
+select * from NAMES;
+
+-- OCD_AGT
+INSERT INTO OCD_AGT
+(ocd_id, grant_type) WITH NAMES AS 
+(
+SELECT id, 'AUTHORIZATION_CODE' FROM OCD UNION ALL
+SELECT id, 'REFRESH_TOKEN' FROM OCD UNION ALL
+SELECT id, 'CLIENT_CREDENTIALS' FROM OCD UNION ALL
+SELECT id, 'PASSWORD' FROM OCD UNION ALL
+SELECT id, 'IMPLICIT' FROM OCD
+)
+select * from NAMES;

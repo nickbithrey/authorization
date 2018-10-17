@@ -1,4 +1,4 @@
-package org.innovation.authorization.security;
+package org.innovation.authorization.role;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

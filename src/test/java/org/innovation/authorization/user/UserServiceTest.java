@@ -1,4 +1,4 @@
-package org.innovation.authorization.security;
+package org.innovation.authorization.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -13,6 +13,8 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import org.assertj.core.api.JUnitSoftAssertions;
+import org.innovation.authorization.role.Role;
+import org.innovation.authorization.role.RoleRepository;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,11 +43,11 @@ public class UserServiceTest {
 
     @Test
     public void testGetUser() {
-        UserInfo userInfo = new UserInfo();
+        User userInfo = new User();
         userInfo.setId(1l);
         when(userRepository.findById(userInfo.getId())).thenReturn(Optional.of(userInfo));
 
-        UserInfo user = userService.getUser(userInfo.getId());
+        User user = userService.getUser(userInfo.getId());
 
         assertThat(user).as("returned user").isEqualTo(userInfo);
         verify(userRepository).findById(userInfo.getId());
@@ -65,15 +67,14 @@ public class UserServiceTest {
 
     @Test
     public void testSave() {
-        UserInfo userInfo = new UserInfo();
+        User userInfo = new User();
         String rawPassword = "pass";
         userInfo.setPassword(rawPassword);
-        Role role = new Role();
-        role.setName("USER");
+        Role role = new Role("USER");
         String encoded = "encoded";
         when(passwordEncoder.encode(anyString())).thenAnswer(invocation -> encoded + invocation.getArgument(0));
         when(roleRepository.findAll()).thenReturn(Arrays.asList(role));
-        when(userRepository.save(any(UserInfo.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         userInfo = userService.save(userInfo);
 

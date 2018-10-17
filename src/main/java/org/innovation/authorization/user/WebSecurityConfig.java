@@ -1,4 +1,4 @@
-package org.innovation.authorization.security;
+package org.innovation.authorization.user;
 
 import javax.annotation.Resource;
 
@@ -11,6 +11,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * configuration for the web application
+ * 
+ * @author nick.bithrey
+ *
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {

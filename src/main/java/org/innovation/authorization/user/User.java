@@ -1,4 +1,4 @@
-package org.innovation.authorization.security;
+package org.innovation.authorization.user;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -14,10 +14,17 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.innovation.authorization.BaseEntity;
+import org.innovation.authorization.role.Role;
 
+/**
+ * Database Entity for the User
+ *
+ * @author nick.bithrey
+ *
+ */
 @Entity
-@Table(name = "USERINFO", uniqueConstraints = { @UniqueConstraint(columnNames = "USERNAME") })
-public class UserInfo extends BaseEntity {
+@Table(name = "USERDETAILS", uniqueConstraints = { @UniqueConstraint(columnNames = "USERNAME") })
+public class User extends BaseEntity {
 
     @NotBlank
     private String username;
@@ -44,14 +51,14 @@ public class UserInfo extends BaseEntity {
 
     @NotNull
     @ManyToMany
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "userdetails_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    UserInfo() {
+    User() {
         // jpa use
     }
 
-    public UserInfo(String username, String password) {
+    public User(String username, String password) {
         super();
         this.username = username;
         this.password = password;

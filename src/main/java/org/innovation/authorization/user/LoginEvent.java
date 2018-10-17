@@ -1,7 +1,13 @@
-package org.innovation.authorization.security;
+package org.innovation.authorization.user;
 
 import java.time.LocalDateTime;
 
+/**
+ * event to be published for a login
+ * 
+ * @author nick.bithrey
+ *
+ */
 public abstract class LoginEvent {
 
     private final String username;

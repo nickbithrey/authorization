@@ -1,5 +1,11 @@
-package org.innovation.authorization.security;
+package org.innovation.authorization.user;
 
+/**
+ * event for a failed login attempt
+ * 
+ * @author nick.bithrey
+ *
+ */
 public class LoginFailureEvent extends LoginEvent {
 
     public LoginFailureEvent(String username) {

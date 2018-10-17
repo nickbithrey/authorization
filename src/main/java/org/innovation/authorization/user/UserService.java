@@ -1,16 +1,23 @@
-package org.innovation.authorization.security;
+package org.innovation.authorization.user;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 
 import javax.annotation.Resource;
 
+import org.innovation.authorization.role.RoleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * service for interacting with the User entity
+ * 
+ * @author nick.bithrey
+ *
+ */
 @Service
 public class UserService {
 
@@ -26,13 +33,13 @@ public class UserService {
     private RoleRepository roleRepository;
 
     @Transactional(readOnly = true)
-    public UserInfo getUser(Long id) {
+    public User getUser(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(String.format("User with id [%d] not found", id)));
     }
 
     @Transactional(readOnly = false)
-    public UserInfo save(UserInfo user) {
+    public User save(User user) {
         LOGGER.trace("Encoding password");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         LOGGER.trace("Adding all roles to user");

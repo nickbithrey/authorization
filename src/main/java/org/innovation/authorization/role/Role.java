@@ -1,4 +1,4 @@
-package org.innovation.authorization.security;
+package org.innovation.authorization.role;
 
 import java.util.Set;
 
@@ -9,7 +9,14 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 
 import org.innovation.authorization.BaseEntity;
+import org.innovation.authorization.user.User;
 
+/**
+ * entity for the available roles in the application
+ *
+ * @author nick.bithrey
+ *
+ */
 @Entity
 @Table(name = "ROLE", uniqueConstraints = { @UniqueConstraint(columnNames = "NAME") })
 public class Role extends BaseEntity {
@@ -18,7 +25,7 @@ public class Role extends BaseEntity {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    private Set<UserInfo> users;
+    private Set<User> users;
 
     Role() {
         // jpa use
@@ -36,11 +43,11 @@ public class Role extends BaseEntity {
         this.name = name;
     }
 
-    public Set<UserInfo> getUsers() {
+    public Set<User> getUsers() {
         return users;
     }
 
-    public void setUsers(Set<UserInfo> users) {
+    public void setUsers(Set<User> users) {
         this.users = users;
     }
 

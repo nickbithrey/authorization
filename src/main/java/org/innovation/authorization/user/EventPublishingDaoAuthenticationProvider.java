@@ -1,4 +1,4 @@
-package org.innovation.authorization.security;
+package org.innovation.authorization.user;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;

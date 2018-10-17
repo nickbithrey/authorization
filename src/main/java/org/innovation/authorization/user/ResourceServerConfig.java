@@ -1,15 +1,24 @@
-package org.innovation.authorization.security;
+package org.innovation.authorization.user;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.util.Assert;
 
+/**
+ * configuration for the resource server to be secured
+ * 
+ * @author nick.bithrey
+ *
+ */
 @Configuration
 @EnableResourceServer
+@Order(SecurityProperties.BASIC_AUTH_ORDER - 1)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private static final String SCOPE_FORMAT = "#oauth2.hasScope(%s)";

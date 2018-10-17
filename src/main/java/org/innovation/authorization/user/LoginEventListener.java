@@ -1,4 +1,4 @@
-package org.innovation.authorization.security;
+package org.innovation.authorization.user;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +7,12 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
 
+/**
+ * listener for login events and processes these events
+ *
+ * @author nick.bithrey
+ *
+ */
 @Component
 @EnableAsync
 public class LoginEventListener {

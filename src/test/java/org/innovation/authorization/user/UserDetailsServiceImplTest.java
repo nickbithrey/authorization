@@ -1,4 +1,4 @@
-package org.innovation.authorization.security;
+package org.innovation.authorization.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.assertj.core.api.JUnitSoftAssertions;
+import org.innovation.authorization.role.Role;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,11 +35,11 @@ public class UserDetailsServiceImplTest {
     @Rule
     public JUnitSoftAssertions softly = new JUnitSoftAssertions();
 
-    private UserInfo buildUserInfo(String username, String password, LocalDateTime accExp, LocalDateTime credExp) {
-        UserInfo userInfo = new UserInfo(username, password);
-        userInfo.setAccountExpiryDate(accExp);
-        userInfo.setCredentialsExpiryDate(credExp);
-        return userInfo;
+    private User buildUserInfo(String username, String password, LocalDateTime accExp, LocalDateTime credExp) {
+        User user = new User(username, password);
+        user.setAccountExpiryDate(accExp);
+        user.setCredentialsExpiryDate(credExp);
+        return user;
     }
 
     @Test
@@ -120,7 +121,7 @@ public class UserDetailsServiceImplTest {
 
     @Test
     public void testAccountLockedUnderMaxAttempts() {
-        UserInfo userInfo = buildUserInfo("username", "password", null, null);
+        User userInfo = buildUserInfo("username", "password", null, null);
         userInfo.setFailedAttempts(userInfo.getMaxFailedAttempts() - 1);
         when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(userInfo));
 
@@ -132,7 +133,7 @@ public class UserDetailsServiceImplTest {
 
     @Test
     public void testAccountLockedEqualMaxAttempts() {
-        UserInfo userInfo = buildUserInfo("username", "password", null, null);
+        User userInfo = buildUserInfo("username", "password", null, null);
         userInfo.setFailedAttempts(userInfo.getMaxFailedAttempts());
         when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(userInfo));
 
@@ -144,7 +145,7 @@ public class UserDetailsServiceImplTest {
 
     @Test
     public void testAccountLockedOverMaxAttempts() {
-        UserInfo userInfo = buildUserInfo("username", "password", null, null);
+        User userInfo = buildUserInfo("username", "password", null, null);
         userInfo.setFailedAttempts(userInfo.getMaxFailedAttempts() + 1);
         when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(userInfo));
 
@@ -156,7 +157,7 @@ public class UserDetailsServiceImplTest {
 
     @Test
     public void testAccountEnabled() {
-        UserInfo userInfo = buildUserInfo("username", "password", null, null);
+        User userInfo = buildUserInfo("username", "password", null, null);
         userInfo.setEnabled(true);
         when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(userInfo));
 
@@ -167,7 +168,7 @@ public class UserDetailsServiceImplTest {
 
     @Test
     public void testAccountDisabled() {
-        UserInfo userInfo = buildUserInfo("username", "password", null, null);
+        User userInfo = buildUserInfo("username", "password", null, null);
         userInfo.setEnabled(false);
         when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(userInfo));
 
@@ -178,7 +179,7 @@ public class UserDetailsServiceImplTest {
 
     @Test
     public void testGrantedAuthorities() {
-        UserInfo userInfo = buildUserInfo("username", "password", null, null);
+        User userInfo = buildUserInfo("username", "password", null, null);
         Set<Role> roles = new HashSet<>();
         roles.add(new Role("USER"));
         roles.add(new Role("MANAGER"));
